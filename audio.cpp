@@ -33,7 +33,7 @@ int main() {
     inp.tie(NULL);
     int n;
     inp >> n;
-    for(int i = 0 ; i < n ; ++i) {
+    for(int i = 0 ; i < n ; i += 1) {
         int x;
         inp >> x;
         int tmp = -1;
@@ -50,7 +50,7 @@ int main() {
 
     vector<int> arr;
     vector<int> ans_V;
-    for(int i = 1 ; i <= n ; ++i) {
+    for(int i = 1 ; i <= n ; i += 1) {
         arr.emplace_back(i);
         ans_V.emplace_back(i);
     }
@@ -61,7 +61,7 @@ int main() {
         auto cand = solve(arr, ans);
         if(ans > cand) {
             ans = cand;
-            for(int i = 0 ; i < n; ++i) {
+            for(int i = 0 ; i < n; i += 1) {
                 ans_V[i] = arr[i];
             }
         }
