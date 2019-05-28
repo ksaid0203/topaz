@@ -6,6 +6,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 #define endl '\n'
 
@@ -19,37 +20,7 @@ int main() {
         arr.emplace_back(str);
     }
     inp.close();
-    vector<vector<string>> radix;
-    for(int i = maxLen - 1; i >= 0 ; --i) {
-        radix.clear();
-        radix.resize(5, vector<string>());
-        for(const string x : arr) {
-            if(x.size() <= i) {
-                radix[0].emplace_back(x);
-            }
-            else {
-                if(x[i] == 'a') {
-                    radix[1].emplace_back(x);
-                }
-                else if(x[i] == 'c') {
-                    radix[2].emplace_back(x);
-                }
-                else if(x[i] == 'g') {
-                    radix[3].emplace_back(x);
-                }
-                else if(x[i] == 't') {
-                    radix[4].emplace_back(x);
-                }
-            }
-        }
-
-        arr.clear();
-        arr.insert(arr.begin(), radix[0].begin(), radix[0].end());
-        arr.insert(arr.begin() + radix[0].size(), radix[1].begin(), radix[1].end());
-        arr.insert(arr.begin() + radix[0].size() + radix[1].size(), radix[2].begin(), radix[2].end());
-        arr.insert(arr.begin() + radix[0].size() + radix[1].size() + radix[2].size(), radix[3].begin(), radix[3].end());
-        arr.insert(arr.begin() + radix[0].size() + radix[1].size() + radix[2].size() + radix[3].size(), radix[4].begin(), radix[4].end());
-    }
+    sort(arr.begin(), arr.end());
     string cand, ans;
     int cnt1 = 0, cnt2 = 0;
     arr.emplace_back("0000");
