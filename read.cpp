@@ -94,7 +94,7 @@ int main() {
     ios_base::sync_with_stdio(false);
     inp.tie(NULL);
     int maxLen = 0;
-    while(inp >> str) {
+    while(getline(inp, str)) {
         maxLen = max(maxLen, (int)str.size());
         arr[0].emplace(str);
     }
