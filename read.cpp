@@ -17,7 +17,7 @@ using namespace std;
  */
 void radix(vector<queue<string> > & arr, const int i) {
     vector<int> cnt;
-    for(int j = 0 ; j < 6 ; ++j) {
+    for(int j = 0 ; j < 6 ; j += 1) {
         cnt.emplace_back(arr[j].size());
     }
     for(int j = 0 ; j < 6 ; j += 1) {
@@ -91,6 +91,8 @@ int main() {
     string str;
 
     ifstream inp("read.inp");
+    ios_base::sync_with_stdio(false);
+    inp.tie(NULL);
     int maxLen = 0;
     while(inp >> str) {
         maxLen = max(maxLen, (int)str.size());
