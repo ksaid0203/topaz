@@ -85,14 +85,14 @@ string solve(const vector<string> & here) {
     return ans;
 }
 
-auto input = [](vector<queue<string>> & arr) {
+void input(vector<queue<string>> & arr) {
     FILE * fp = fopen("read.inp", "r");
     char str[55];
     while(fgets(str, sizeof(str), fp) != NULL) {
         arr[0].emplace(str);
     }
     fclose(fp);
-};
+}
 
 int main() {
     vector<queue<string>> arr(6, queue<string>());
