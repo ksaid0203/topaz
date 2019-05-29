@@ -13,38 +13,45 @@ using namespace std;
 int main() {
     vector<string> arr;
     string str;
+    //ifstream inp("C:\\Users\\ksaid\\Downloads\\4-1\\algorithm\\sampleData12\\1.inp");
     ifstream inp("read.inp");
-    int maxLen = 0;
+    //int maxLen = 0;
     while(inp >> str) {
-        maxLen = max(maxLen, (int)str.size());
+        //maxLen = max(maxLen, (int)str.size());
         arr.emplace_back(str);
     }
     inp.close();
     sort(arr.begin(), arr.end());
-    string cand, ans;
+    string cand(arr[0]);
     int cnt1 = 0, cnt2 = 0;
     arr.emplace_back("0000");
-    for(const string x : arr) {
-        if(cand.empty()) {
-            cand = x;
+    vector<string> ans;
+
+    for(auto it = arr.begin(); it != arr.end(); ++it) {
+        if(it == arr.begin()) {
+            ++cnt2;
+            continue;
         }
-        if(x == cand) {
+        auto it2 = it - 1;
+        if(*it2 == *it) {
             ++cnt2;
         }
         else {
-            //cout << x << ' ' << cnt1 << ' ' << cnt2 << endl;
-            if(cnt1 < cnt2) {
-                cnt1 = cnt2;
-                cnt2 = 1;
-                ans = cand;
+            if(cnt1 == cnt2) {
+                ans.emplace_back(*it2);
             }
-            cand = x;
+            else if(cnt1 < cnt2) {
+
+                ans.clear();
+                cnt1 = cnt2;
+                ans.emplace_back(*it2);
+            }
+            cnt2 = 1;
         }
     }
 
     ofstream out("read.out");
-    out << ans << endl;
+    out << ans[0] << endl;
     out.close();
-//    cout << ans << endl;
     return 0;
 }
