@@ -85,22 +85,25 @@ string solve(const vector<string> & here) {
     return ans;
 }
 
+auto input = [](vector<queue<string>> & arr) {
+    FILE * fp = fopen("read.inp", "r");
+    char str[55];
+    while(fgets(str, sizeof(str), fp) != NULL) {
+        arr[0].emplace(str);
+    }
+    fclose(fp);
+};
+
 int main() {
     vector<queue<string>> arr(6, queue<string>());
     vector<string> here;
     string str;
 
-    ifstream inp("read.inp");
-    ios_base::sync_with_stdio(false);
-    inp.tie(NULL);
     int maxLen = 0;
-    while(getline(inp, str)) {
-        maxLen = max(maxLen, (int)str.size());
-        arr[0].emplace(str);
-    }
-    inp.close();
 
-    for(int i = maxLen - 1 ; i >= 0 ; i -= 1) {
+    input(arr);
+
+    for(int i = 55 ; i >= 0 ; i -= 1) {
         radix(arr, i);
     }
 
