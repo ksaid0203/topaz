@@ -6,52 +6,112 @@
 #include <string>
 #include <fstream>
 #include <vector>
-#include <algorithm>
+#include <queue>
 using namespace std;
 #define endl '\n'
 
-int main() {
-    vector<string> arr;
-    string str;
-    //ifstream inp("C:\\Users\\ksaid\\Downloads\\4-1\\algorithm\\sampleData12\\1.inp");
-    ifstream inp("read.inp");
-    //int maxLen = 0;
-    while(inp >> str) {
-        //maxLen = max(maxLen, (int)str.size());
-        arr.emplace_back(str);
+/**
+ * 버킷정렬의 한 부분
+ * @param arr bucket들
+ * @param i 내가 관심있는 index
+ */
+void radix(vector<queue<string> > & arr, const int i) {
+    vector<int> cnt;
+    for(int j = 0 ; j < 6 ; j += 1) {
+        cnt.emplace_back(arr[j].size());
     }
-    inp.close();
-    sort(arr.begin(), arr.end());
-    string cand(arr[0]);
-    int cnt1 = 0, cnt2 = 0;
-    arr.emplace_back("0000");
-    vector<string> ans;
-
-    for(auto it = arr.begin(); it != arr.end(); ++it) {
-        if(it == arr.begin()) {
-            ++cnt2;
-            continue;
+    for(int j = 0 ; j < 6 ; j += 1) {
+        for(int k = 0 ; k < cnt[j] ; k += 1) {
+            auto tmp = arr[j].front();
+            if(tmp.size() <= i) {
+                arr[0].emplace(tmp);
+            }
+            else if(tmp[i] == 'a') {
+                arr[1].emplace(tmp);
+            }
+            else if(tmp[i] == 'c') {
+                arr[2].emplace(tmp);
+            }
+            else if(tmp[i] == 'g') {
+                arr[3].emplace(tmp);
+            }
+            else if(tmp[i] == 'n') {
+                arr[4].emplace(tmp);
+            }
+            else if(tmp[i] == 't') {
+                arr[5].emplace(tmp);
+            }
+            arr[j].pop();
         }
+    }
+}
+
+/**
+ * bucket 내용을 vector로 전달합니다. 그냥 버킷 채로 해도 되는데, 앞전에 구현해 놓은 함수가 vector를 인자로 해서
+ * vector 형태로 합니다.
+ * @param arr bucket들
+ * @param here 데이터를 전달받을 vector
+ */
+void queue2vector(vector<queue<string> > & arr, vector<string> & here) {
+    for(auto x : arr) {
+        while(!x.empty()) {
+            here.emplace_back(x.front());
+            x.pop();
+        }
+    }
+}
+
+/**
+ * 최빈값을 반환
+ * @param here 정렬된 배열
+ * @return 정렬 결과의 최빈값
+ */
+string solve(const vector<string> & here) {
+    string ans;
+    int cnt1 = 0, cnt2 = 1;
+    for(auto it = here.begin() + 1 ; it != here.end(); ++it) {
         auto it2 = it - 1;
         if(*it2 == *it) {
             ++cnt2;
         }
         else {
-            if(cnt1 == cnt2) {
-                ans.emplace_back(*it2);
-            }
-            else if(cnt1 < cnt2) {
-
-                ans.clear();
+            if(cnt1 < cnt2) {
                 cnt1 = cnt2;
-                ans.emplace_back(*it2);
+                ans = *it2;
             }
             cnt2 = 1;
         }
     }
+    return ans;
+}
+
+void input(vector<queue<string>> & arr) {
+    FILE * fp = fopen("read.inp", "r");
+    char str[55];
+    while(fgets(str, sizeof(str), fp) != NULL) {
+        arr[0].emplace(str);
+    }
+    fclose(fp);
+}
+
+int main() {
+    vector<queue<string>> arr(6, queue<string>());
+    vector<string> here;
+    string str;
+
+    int maxLen = 0;
+
+    input(arr);
+
+    for(int i = 55 ; i >= 0 ; i -= 1) {
+        radix(arr, i);
+    }
+
+    queue2vector(arr, here);
+    here.emplace_back("0000");
 
     ofstream out("read.out");
-    out << ans[0] << endl;
+    out << solve(here) << endl;
     out.close();
     return 0;
 }
