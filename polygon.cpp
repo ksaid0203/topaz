@@ -76,12 +76,12 @@ int convexHull() {
 //        s.push(next);
 //        next += 1;
 //    }
-//    return s.size();
+//    return n - s.size();
 }
 
 int main() {
-    ifstream inp("polygon.inp");
-    //ifstream inp("C:\\Users\\ksaid\\Downloads\\4-1\\algorithm\\sampleData13\\3.inp");
+    //ifstream inp("polygon.inp");
+    ifstream inp("C:\\Users\\ksaid\\Downloads\\4-1\\algorithm\\sampleData13\\3.inp");
     ios_base::sync_with_stdio(false);
     inp.tie(NULL);
 
@@ -96,12 +96,15 @@ int main() {
     for(int i = 0 ; i < n ; i += 1) {
         //cout << i << ' ' << j << ' ' << k << ' ' << l << endl;
         int j = (i + 1) % n;
-        int k = (j + 1) % n;
-        int l = (k + 1) % n;
-        if(ccw(arr[i], arr[j], arr[k]) * ccw(arr[i], arr[j], arr[l]) < 0 &&
-        ccw(arr[k], arr[l], arr[i]) * ccw(arr[k], arr[l], arr[j]) < 0) {
-            None = true;
+        for(int k = (j + 1); k < n ; k += 1) {
+            int l = (k + 1) % n;
+            if(ccw(arr[i], arr[j], arr[k]) * ccw(arr[i], arr[j], arr[l]) < 0 &&
+               ccw(arr[k], arr[l], arr[i]) * ccw(arr[k], arr[l], arr[j]) < 0) {
+                None = true;
+            }
         }
+
+        //int k = (j + 1) % n;
     }
 
     ofstream out("polygon.out");
