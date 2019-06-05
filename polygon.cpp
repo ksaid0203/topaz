@@ -80,8 +80,8 @@ int convexHull() {
 }
 
 int main() {
-    //ifstream inp("polygon.inp");
-    ifstream inp("C:\\Users\\ksaid\\Downloads\\4-1\\algorithm\\sampleData13\\3.inp");
+    ifstream inp("polygon.inp");
+    //ifstream inp("C:\\Users\\ksaid\\Downloads\\4-1\\algorithm\\sampleData13\\3.inp");
     ios_base::sync_with_stdio(false);
     inp.tie(NULL);
 
